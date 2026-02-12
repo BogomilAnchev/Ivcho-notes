@@ -18,10 +18,16 @@ body {
   overflow-x: clip;
   font-family: sans-serif;
   line-height: 1.5;
+  background-color: $blue;
+  color: $black;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
   scroll-behavior: smooth;
+}
+
+body {
+  padding: 10px;
 }
 
 li {

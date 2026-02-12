@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import styles from "@/features/notes/components/NotePanel.module.scss";
+import { Button } from "@/features/common/Button/Button";
 
 type NotePanelProps = {
   dayLabel: string;
@@ -39,31 +41,32 @@ export const NotePanel = ({ dayLabel, message, onSave }: NotePanelProps) => {
   };
 
   return (
-    <section style={{ marginTop: 16 }}>
-      <h2 style={{ marginBottom: 8 }}>{dayLabel}</h2>
+    <section className={styles.panel}>
+      <h2>{dayLabel}</h2>
 
       {mode === "view" ? (
-        <p style={{ whiteSpace: "pre-wrap", minHeight: 60 }}>{viewText}</p>
+        <p>{viewText}</p>
       ) : (
         <textarea
+          id="message"
+          name="message"
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           rows={5}
-          style={{ width: "100%", resize: "vertical" }}
           disabled={saving}
         />
       )}
 
-      <div style={{ marginTop: 12, display: "flex", gap: 8 }}>
-        <button
+      <div>
+        <Button
           onClick={() => void onClick()}
           disabled={saving || message === null}
         >
           {mode === "view" ? "Edit" : saving ? "Saving..." : "Save"}
-        </button>
+        </Button>
 
         {mode === "edit" && (
-          <button
+          <Button
             type="button"
             onClick={() => {
               setMode("view");
@@ -72,7 +75,7 @@ export const NotePanel = ({ dayLabel, message, onSave }: NotePanelProps) => {
             disabled={saving}
           >
             Cancel
-          </button>
+          </Button>
         )}
       </div>
     </section>

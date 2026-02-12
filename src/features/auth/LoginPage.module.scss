@@ -1,0 +1,43 @@
+@use "@/sharedStyles/abstracts.scss" as *;
+
+.page {
+  max-width: 360px;
+  margin: 50px auto;
+  padding: 40px;
+  text-align: center;
+  border: $blue3 1px solid;
+  border-radius: 10px;
+  background-color: $white;
+
+  &__title {
+    color: $blue3;
+    font-size: 40px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+
+    label {
+      margin-bottom: 50px;
+    }
+
+    input {
+      border-radius: 2px;
+      border: 1px solid $blue3;
+      margin-top: 5px;
+      padding: 4px 10px;
+      font-size: 16px;
+    }
+
+    span {
+      position: relative;
+      bottom: 40px;
+      height: 0;
+      color: $red;
+    }
+  }
+}

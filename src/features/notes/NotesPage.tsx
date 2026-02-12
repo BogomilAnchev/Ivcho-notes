@@ -1,12 +1,15 @@
+import styles from "@/features/notes/NotesPage.module.scss";
 import { useEffect, useMemo, useState } from "react";
 import { notesRepo } from "@/features/notes/data/notesRepo";
 import { toISODate } from "@/features/notes/utils/date";
 import { NotesCalendar } from "@/features/notes/components/NotesCalendar";
 import { NotePanel } from "@/features/notes/components/NotePanel";
 import { supabase } from "@/infrastructure/supabase/supabaseClient";
+import { Button } from "@/features/common/Button/Button";
 
 const PAST_DAYS_TO_KEEP = 60;
 const FUTURE_DAYS_TO_KEEP = 90;
+
 export const NotesPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
   const [notesByDate, setNotesByDate] = useState<Map<string, string>>(
@@ -17,23 +20,33 @@ export const NotesPage = () => {
 
   const selectedIso = useMemo(() => toISODate(selectedDate), [selectedDate]);
 
+  const rangeFrom = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() - PAST_DAYS_TO_KEEP);
+    return d;
+  }, []);
+
+  const rangeTo = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + FUTURE_DAYS_TO_KEEP);
+    return d;
+  }, []);
+
   const hasNoteDates = useMemo(() => {
     return Array.from(notesByDate.entries())
       .filter(([, msg]) => msg.trim().length > 0)
       .map(([iso]) => new Date(`${iso}T00:00:00`));
   }, [notesByDate]);
 
-  // Load last 40 days notes on mount
+  // Load notes for the allowed range on mount
   useEffect(() => {
     const run = async () => {
       setLoadingRange(true);
       try {
-        const to = new Date();
-        const from = new Date();
-        from.setDate(from.getDate() - PAST_DAYS_TO_KEEP);
-        to.setDate(from.getDate() + FUTURE_DAYS_TO_KEEP);
-
-        const rows = await notesRepo.getRange(toISODate(from), toISODate(to));
+        const rows = await notesRepo.getRange(
+          toISODate(rangeFrom),
+          toISODate(rangeTo)
+        );
 
         const map = new Map<string, string>();
         for (const r of rows) map.set(r.day_date, r.message ?? "");
@@ -44,7 +57,7 @@ export const NotesPage = () => {
     };
 
     void run();
-  }, []);
+  }, [rangeFrom, rangeTo]);
 
   // Load note for selected date (from cache first; fallback to DB)
   useEffect(() => {
@@ -60,7 +73,6 @@ export const NotesPage = () => {
       const message = row?.message ?? "";
       setSelectedMessage(message);
 
-      // cache it
       setNotesByDate((prev) => {
         const next = new Map(prev);
         next.set(selectedIso, message);
@@ -88,37 +100,26 @@ export const NotesPage = () => {
   };
 
   return (
-    <main style={{ maxWidth: 860, margin: "32px auto", padding: 16 }}>
-      <header
-        style={{
-          display: "flex",
-          alignItems: "baseline",
-          justifyContent: "space-between",
-        }}
-      >
-        <h1 style={{ margin: 0 }}>Team Notes</h1>
-        <span style={{ opacity: 0.7 }}>
+    <main className={styles.page}>
+      <header className={styles.page__header}>
+        <h1>Team Notes</h1>
+
+        <span>
           {loadingRange
             ? "Loading notes…"
-            : `Showing last ${PAST_DAYS_TO_KEEP}, future ${FUTURE_DAYS_TO_KEEP} days`}
+            : `Showing last ${PAST_DAYS_TO_KEEP} days, future ${FUTURE_DAYS_TO_KEEP} days`}
         </span>
-        <button type="button" onClick={onLogout}>
-          Logout
-        </button>
+
+        <Button onClick={onLogout}>Logout</Button>
       </header>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "340px 1fr",
-          gap: 24,
-          marginTop: 16,
-        }}
-      >
+      <div className={styles.page__main}>
         <NotesCalendar
           selected={selectedDate}
           onSelect={setSelectedDate}
           hasNoteDates={hasNoteDates}
+          fromDate={rangeFrom}
+          toDate={rangeTo}
         />
 
         <NotePanel

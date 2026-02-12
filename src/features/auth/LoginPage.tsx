@@ -1,5 +1,8 @@
+import styles from "@/features/auth/LoginPage.module.scss";
 import { useState } from "react";
 import { supabase } from "@/infrastructure/supabase/supabaseClient";
+
+import { Button } from "@/features/common/Button/Button";
 
 const SHARED_EMAIL = import.meta.env.VITE_SHARED_LOGIN_EMAIL as
   | string
@@ -36,18 +39,12 @@ export const LoginPage = () => {
   };
 
   return (
-    <main style={{ maxWidth: 420, margin: "64px auto", padding: 16 }}>
-      <h1 style={{ marginBottom: 8 }}>Team Notes</h1>
-      <p style={{ marginTop: 0, opacity: 0.8 }}>
-        Enter the shared password to continue.
-      </p>
+    <main className={styles.page}>
+      <h1 className={styles.page__title}>Team Notes</h1>
 
-      <form
-        onSubmit={(e) => void onSubmit(e)}
-        style={{ display: "grid", gap: 12, marginTop: 16 }}
-      >
-        <label style={{ display: "grid", gap: 6 }}>
-          <span>Password</span>
+      <form onSubmit={(e) => void onSubmit(e)} className={styles.page__form}>
+        <label>
+          <p>Password:</p>
           <input
             type="password"
             autoComplete="current-password"
@@ -57,14 +54,14 @@ export const LoginPage = () => {
           />
         </label>
 
-        {error && <div style={{ color: "crimson" }}>{error}</div>}
+        {error && <span>{error}</span>}
 
-        <button
+        <Button
           type="submit"
-          disabled={submitting || password.trim().length === 0}
+          disabled={submitting || password.trim().length != 10}
         >
           {submitting ? "Signing in..." : "Sign in"}
-        </button>
+        </Button>
       </form>
     </main>
   );
