@@ -1,0 +1,19 @@
+// Media queries based on design breakpoints - example for desktop/tablet/mobile designs
+
+@mixin Phone {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
+@mixin Phone-Tablet {
+  @media screen and (max-width: 1279px) {
+    @content;
+  }
+}
+
+@mixin Tablet {
+  @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @content;
+  }
+}
