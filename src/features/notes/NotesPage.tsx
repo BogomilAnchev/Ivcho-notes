@@ -18,9 +18,9 @@ export const NotesPage = () => {
   const selectedIso = useMemo(() => toISODate(selectedDate), [selectedDate]);
 
   const hasNoteDates = useMemo(() => {
-    return Array.from(notesByDate.keys()).map(
-      (iso) => new Date(`${iso}T00:00:00`)
-    );
+    return Array.from(notesByDate.entries())
+      .filter(([, msg]) => msg.trim().length > 0)
+      .map(([iso]) => new Date(`${iso}T00:00:00`));
   }, [notesByDate]);
 
   // Load last 40 days notes on mount
