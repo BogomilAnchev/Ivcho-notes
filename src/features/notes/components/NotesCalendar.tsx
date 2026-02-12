@@ -1,7 +1,7 @@
 import { DayPicker, type Matcher } from "react-day-picker";
+import { enGB } from "date-fns/locale"; // Monday-first locale
 import "react-day-picker/dist/style.css";
 import "@/features/notes/components/NotesCalendar.scss";
-
 type NotesCalendarProps = {
   selected: Date;
   onSelect: (d: Date) => void;
@@ -29,6 +29,7 @@ export const NotesCalendar = ({
           if (d) onSelect(d);
         }}
         hidden={hidden}
+        locale={enGB}
         disabled={disabled}
         modifiers={{ hasNote: hasNoteDates }}
         modifiersClassNames={{ hasNote: "has-note" }}
