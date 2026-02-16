@@ -1,5 +1,5 @@
 import { LoginPage } from "@/features/auth/LoginPage";
-import { NotesPage } from "@/features/notes/NotesPage";
+import { NotesPage } from "@/features/patients/PatientsPage";
 import { useSession } from "@/features/auth/useSession";
 
 export const App = () => {

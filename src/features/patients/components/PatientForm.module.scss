@@ -1,0 +1,29 @@
+.patient-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+
+  &__field {
+    display: grid;
+    gap: 6px;
+  }
+
+  &__label {
+    display: inline-flex;
+    gap: 6px;
+    align-items: baseline;
+  }
+
+  &__required {
+    color: crimson;
+  }
+
+  &__error {
+    color: crimson;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+  }
+}

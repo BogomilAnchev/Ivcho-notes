@@ -30,3 +30,10 @@
     pointer-events: none;
   }
 }
+
+@include Phone {
+  .btn {
+    font-size: 14px;
+    padding: 2px 8px;
+  }
+}

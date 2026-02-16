@@ -1,7 +1,7 @@
 @use "@/sharedStyles/abstracts.scss" as *;
 
 .page {
-  max-width: 960px;
+  max-width: 1280px;
   margin: 50px auto;
   padding: 10px 40px 40px;
   text-align: center;
@@ -24,20 +24,51 @@
 
   &__main {
     display: flex;
-    margin-top: 50px;
+    margin: 50px;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
+  }
+
+  &__info {
+    width: 100%;
+  }
+
+  &__info-btn {
+    margin-right: 0;
+  }
+
+  &__info-title {
+    margin-bottom: 20px;
   }
 }
 
-@include Phone {
+@include Tablet {
   .page {
     margin: 0;
     padding: 10px;
 
     &__main {
+      margin: 0;
+    }
+  }
+}
+
+@include Phone {
+  .page {
+    &__main {
+      margin: 0;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+    }
+
+    &__info {
+      > div {
+        span {
+          font-size: 14px;
+        }
+      }
     }
   }
 }

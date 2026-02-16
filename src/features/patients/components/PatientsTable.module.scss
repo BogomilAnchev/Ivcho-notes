@@ -1,0 +1,63 @@
+@use "@/sharedStyles/abstracts.scss" as *;
+
+.patients-table {
+  &__scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+    margin-top: 12px;
+    min-width: 710px; // forces scroll on small screens
+  }
+
+  &__empty {
+    margin-top: 12px;
+  }
+
+  &__header-row {
+  }
+
+  &__header-cell {
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  &__row {
+    border-bottom: 1px solid #eee;
+  }
+
+  &__cell {
+    text-align: left;
+    padding: 8px;
+
+    &--comment {
+      white-space: pre-wrap;
+    }
+
+    &--actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      white-space: nowrap;
+    }
+  }
+
+  &__phone-link {
+    text-decoration: underline;
+  }
+}
+
+@include Phone {
+  .patients-table {
+    &__cell,
+    &__header-cell {
+      font-size: 14px;
+    }
+  }
+}
